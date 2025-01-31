@@ -1,23 +1,16 @@
-import React from 'react'
-import './App.css'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
 
 function App() {
-
   return (
     <>
-      <div>
-
-      </div>
-      <h1>Benvenuto su Run-up</h1>
-      <h2>Accedi con un click, con Strava</h2>
-      <div className="card">
-      <button className="bg-orange-500 hover:bg-orange-700 text-black font-bold py-2 px-4 border border-orange-700 rounded">
-        Login con Strava
-      </button>
-
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
