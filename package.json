@@ -15,7 +15,9 @@
     "react": "^18.3.1",
     "react-contribution-calendar": "^2.0.1",
     "react-dom": "^18.3.1",
+    "react-pro-sidebar": "^1.1.0",
     "react-router-dom": "^7.1.4",
+    "recharts": "^2.15.1",
     "tailwindcss": "^4.0.1",
     "zustand": "^5.0.3"
   },

@@ -7,7 +7,7 @@ const LoginButton: React.FC = () => {
   return (
     <button
       onClick={login}
-      className="text-black font-bold py-2 px-4 border border-orange-700 rounded hover:cursor-pointer hover:bg-orange-200 transition-colors duration-200"
+      className="text-black font-bold py-2 px-4 border border-orange-700 bg-orange-700 rounded hover:cursor-pointer hover:bg-orange-400 transition-colors duration-200"
     >
       Login con Strava
     </button>
