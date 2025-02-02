@@ -2,7 +2,6 @@ import { Button } from "@/components/button";
 import ContributionGraph from "../components/ContributionGraph"
 import Linechart from "../components/Linechart";
 import { ResponsiveContainer } from "recharts";
-import SidebarUI from "../components/SidebarUI"
 
 const dataLineChart = [
     {
@@ -74,14 +73,10 @@ const dataGHchart = [
 function Home() {
   return (
     <div className="h-100">
-        <SidebarUI></SidebarUI>
         <ContributionGraph dataGHchart={dataGHchart} ></ContributionGraph>
         <ResponsiveContainer>
         <Linechart dataLineChart={dataLineChart}></Linechart>
         </ResponsiveContainer>
-
-    <Button> CARL </Button>
-
     </div>
 
   )
