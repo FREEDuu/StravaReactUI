@@ -53,7 +53,7 @@ export function AppSidebar() {
   return (
     <Sidebar className="w-64 fixed h-full">
       <SidebarContent className="bg-gray-100">
-        <SidebarGroup className="px-6">
+        <SidebarGroup>
           <SidebarGroupLabel className="text-lg">Strava</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarSeparator className="bg-orange-500 mb-2" />
