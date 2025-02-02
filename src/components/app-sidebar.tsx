@@ -51,16 +51,15 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar className="w-64 fixed h-full">
       <SidebarContent className="bg-gray-100">
-        <SidebarGroup className="px-4">
+        <SidebarGroup className="px-6">
           <SidebarGroupLabel className="text-lg">Strava</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarSeparator className="bg-orange-500 mb-2" />
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title} className="pr-4">
-                  {/* Check if the item has children first... */}
                   {item.children ? (
                     <Collapsible defaultOpen={false} className="group/collapsible">
                       <CollapsibleTrigger asChild>
@@ -85,7 +84,6 @@ export function AppSidebar() {
                         </SidebarMenuSub>
                       </CollapsibleContent>
                     </Collapsible>
-
                   ) : (
                     <SidebarMenuButton asChild className="rounded hover:bg-gray-200">
                       <a href={item.url} className="flex items-center gap-2">
