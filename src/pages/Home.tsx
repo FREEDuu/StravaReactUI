@@ -1,7 +1,9 @@
-import { Button } from "@/components/button";
 import ContributionGraph from "../components/ContributionGraph"
 import Linechart from "../components/Linechart";
 import { ResponsiveContainer } from "recharts";
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useAuthStore from '../stores/useAuthStore';
 
 const dataLineChart = [
     {
@@ -70,7 +72,37 @@ const dataGHchart = [
     },
   ]
 
-function Home() {
+  function Home() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const handleAuthRedirect = useAuthStore((state: any) => state.handleAuthRedirect);
+    const isAuthenticated = useAuthStore((state: any) => state.isAuthenticated);
+    //useAuthStore((state: any) => state.logAuthInfo()); // Log user info
+  
+    // Catch URL code from previous redirect from Strava, if present.
+    useEffect(() => {
+      const urlParams = new URLSearchParams(location.search);
+      const code = urlParams.get('code');
+
+      if (code && !isAuthenticated) {
+        handleAuthRedirect(code)
+          .then(() => {
+            // Remove the code from the URL to prevent infinite redirects loop
+            navigate('/home', { replace: true });
+          })
+          .catch(() => {
+            navigate('/login', { replace: true });
+          });
+      } else if (!isAuthenticated) {
+        // If no code and not authenticated, redirect to login
+        navigate('/login', { replace: true });
+      }
+    }, [handleAuthRedirect, navigate, location, isAuthenticated]);
+  
+    if (!isAuthenticated) {
+      return <div>Redirecting...</div>;
+    }
+
   return (
     <div className="h-100">
         <ContributionGraph dataGHchart={dataGHchart} ></ContributionGraph>

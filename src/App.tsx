@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { SidebarProvider, SidebarTrigger } from "./components/sidebar";
 
 import { AppSidebar } from "./components/app-sidebar";
@@ -16,8 +16,9 @@ function App() {
         <main className={`${isLoginRoute ? 'w-full' : 'flex-1 p-4 ml-64'}`}>
           {/*{!isLoginRoute && <SidebarTrigger />} */}
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
           </Routes>
         </main>      
       </div>
