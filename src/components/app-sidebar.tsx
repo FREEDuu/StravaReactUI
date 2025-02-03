@@ -1,4 +1,4 @@
-import { BookOpen, CalendarDays, ChartBar, ChevronDown, Home, LineChart, PieChart } from "lucide-react";
+import { BookOpen, CalendarDays, ChartBar, ChevronDown, Home, LineChart, PieChart, LogOut } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./collapsible";
 import {
   Sidebar,
@@ -46,6 +46,11 @@ const items = [
     title: "Calendar",
     url: "#",
     icon: CalendarDays,
+  },
+  {
+    title: "Logout",
+    url: "/login",
+    icon: LogOut,
   },
 ];
 

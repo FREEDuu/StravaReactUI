@@ -83,7 +83,7 @@ const dataGHchart = [
     useEffect(() => {
       const urlParams = new URLSearchParams(location.search);
       const code = urlParams.get('code');
-
+      console.log(localStorage)
       if (code && !isAuthenticated) {
         handleAuthRedirect(code)
           .then(() => {
