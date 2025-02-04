@@ -7,9 +7,17 @@ const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 const AUTH_URL = `https://www.strava.com/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&approval_prompt=force&scope=read,activity:read_all`;
 
 const useAuthStore = create((set, get) => ({
+  
   token: localStorage.getItem("strava_token") || null,
-  user: JSON.parse(localStorage.getItem("strava_user") || "null"),
-  isAuthenticated: !!localStorage.getItem("strava_token"),
+  user: (() => {  // IIFE to handle parsing logic
+    const storedUser = localStorage.getItem("strava_user");
+    try {
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+      console.error("Error parsing user:", error);
+      return null;
+    }
+  })(),
 
   logAuthInfo: () => {
     console.log("--AUTH INFO--");
@@ -25,16 +33,11 @@ const useAuthStore = create((set, get) => ({
   handleAuthRedirect: async (code: string) => {
     try {
       const response = await axios.post(
-        "https://www.strava.com/oauth/token",
-        new URLSearchParams({
-          client_id: CLIENT_ID,
-          client_secret: CLIENT_SECRET,
-          code: code,
-          grant_type: "authorization_code",
-        }),
+        "http://127.0.0.1:8000/create_user/",
+        { code: code },
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json", 
           },
         }
       );
@@ -54,9 +57,14 @@ const useAuthStore = create((set, get) => ({
   },
 
   logout: () => {
-    set({ token: null, user: null, isAuthenticated: false });
-    localStorage.removeItem("strava_token");
-    localStorage.removeItem("strava_user");
+    try{
+      set({ token: null, user: null, isAuthenticated: false });
+      localStorage.removeItem("strava_token");
+      localStorage.removeItem("strava_user");
+    }
+    catch(error){
+      console.log(error)
+    }
   },
 }));
 
