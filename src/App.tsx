@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { SidebarProvider, SidebarTrigger } from "./components/sidebar";
-
+import AuthCallback from './pages/AuthCallback';
 import { AppSidebar } from "./components/app-sidebar";
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -16,8 +16,10 @@ function App() {
         <main className={`${isLoginRoute ? 'w-full' : 'flex-1 p-4 ml-64'}`}>
           {/*{!isLoginRoute && <SidebarTrigger />} */}
           <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
             {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
           </Routes>
         </main>      

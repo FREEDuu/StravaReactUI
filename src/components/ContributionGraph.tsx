@@ -5,8 +5,8 @@ function ContributionGraph({dataGHchart} : any) {
     <ContributionCalendar
       data={dataGHchart}
       dateOptions={{
-        start: '2022-01-01',
-        end: '2023-01-01',
+        start: '2024-01-01',
+        end: '2024-12-31',
         daysOfTheWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         startsOnSunday: true,
         includeBoundary: true,

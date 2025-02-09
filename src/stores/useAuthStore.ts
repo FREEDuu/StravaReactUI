@@ -1,13 +1,25 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
+interface StravaUser {
+  access_token: string;
+  refresh_token: string;
+  username: string;
+  expires_at: number;
+  city: string;
+  profile_image: string;
+  state: string;
+}
+
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;
 const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 const AUTH_URL = `https://www.strava.com/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&approval_prompt=force&scope=read,activity:read_all`;
-
+const TOKEN_KEY = "strava_token";
+const USER_KEY = "strava_user";
 const useAuthStore = create((set, get) => ({
   
+
   token: localStorage.getItem("strava_token") || null,
   user: (() => {  // IIFE to handle parsing logic
     const storedUser = localStorage.getItem("strava_user");
@@ -33,7 +45,7 @@ const useAuthStore = create((set, get) => ({
   handleAuthRedirect: async (code: string) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/create_user/",
+        "http://stravawebapp-fastapi-u8bwo9-877f67-135-181-151-206.traefik.me/create_user/",
         { code: code },
         {
           headers: {
@@ -47,7 +59,7 @@ const useAuthStore = create((set, get) => ({
       if (data.access_token) {
         set({ token: data.access_token, user: data.athlete, isAuthenticated: true });
         localStorage.setItem("strava_token", data.access_token);
-        localStorage.setItem("strava_user", JSON.stringify(data.athlete));
+        localStorage.setItem("strava_user", JSON.stringify(data));
       }
       return true;
     } catch (error) {
@@ -55,6 +67,11 @@ const useAuthStore = create((set, get) => ({
       return false;
     }
   },
+  saveAuthData(data: StravaUser): void {
+    localStorage.setItem(TOKEN_KEY, data.access_token);
+    localStorage.setItem(USER_KEY, JSON.stringify(data));
+  },
+
 
   logout: () => {
     try{
