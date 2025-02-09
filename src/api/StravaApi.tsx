@@ -1,5 +1,23 @@
 const API_BASE_URL = "http://stravawebapp-fastapi-u8bwo9-877f67-135-181-151-206.traefik.me"; // Base URL
 
+export const fetchLimitedActivitiesData = async (runner_username: string, runner_access: string, limit_query: number): Promise<Activity[]> => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth_runner_activities_limit/${runner_username}/${runner_access}/${limit_query}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const activities: Activity[] = await response.json();
+        return activities;
+
+    } catch (error) {
+        console.error("Error fetching limited activities data:", error);
+        return [];
+    }
+};
+
+
 
 export const fetchCumulativeChartData = async (runner_username: string, runner_access: string, num_years: number = 2): Promise<CumulativeChartDataPoint[]> => {
     try {
@@ -10,7 +28,6 @@ export const fetchCumulativeChartData = async (runner_username: string, runner_a
         }
 
         const data: CumulativeChartData = await response.json();
-        console.log("dati cumulativi",data)
         const chartDataPoints: CumulativeChartDataPoint[] = [];
 
         for (const year in data.years) {
@@ -29,7 +46,6 @@ export const fetchCumulativeChartData = async (runner_username: string, runner_a
                 }
             }
         }
-        console.log("dati cumulativi",chartDataPoints)
 
         return chartDataPoints;
 

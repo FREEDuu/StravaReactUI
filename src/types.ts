@@ -13,8 +13,7 @@ interface Activity {
     kudos_count: number;
     athlete_count: number;
     average_speed: number;
-  }
-  
+  }  
   
 interface ChartDataPoint {
     date: string;

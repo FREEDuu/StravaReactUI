@@ -18,7 +18,7 @@ function App() {
           <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
             {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
           </Routes>

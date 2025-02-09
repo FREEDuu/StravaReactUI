@@ -4,8 +4,10 @@ import { ResponsiveContainer } from "recharts";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/useAuthStore';
-import { fetchGHChartData, fetchActivitiesData, fetchCumulativeChartData } from "@/api/StravaApi";
+import { fetchGHChartData, fetchActivitiesData, fetchCumulativeChartData, fetchLimitedActivitiesData } from "@/api/StravaApi";
 import CumulativeChart from "@/components/Cumulative";
+import ActivityCard from "@/components/ActivityCard";
+
 
 function Home() {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ function Home() {
   const [dataGHchart, setDataGHchart] = useState<ContributionData[]>([]);
   const [dataLineChart, setDataLineChart] = useState<ChartDataPoint[]>([]); // ChartDataPoint array
   const [cumulativeChartData, setCumulativeChartData] = useState<CumulativeChartDataPoint[]>([]);
+  const [limitedActivities, setLimitedActivities] = useState<Activity[]>([]); // New state
 
 
   useEffect(() => {
@@ -34,6 +37,8 @@ function Home() {
                 
                 fetchCumulativeChartData(parsedUser.username, parsedUser.access_token, 3)
                     .then(data => setCumulativeChartData(data));
+                fetchLimitedActivitiesData(parsedUser.username, parsedUser.access_token, 6) 
+                    .then(data => setLimitedActivities(data));
             }
           } catch (error) {
               console.error("Error parsing stored user:", error);
@@ -47,7 +52,7 @@ function Home() {
       }
   }, [navigate, isAuthenticated]);
 
-  console.log(cumulativeChartData)
+  console.log(limitedActivities)
 
   return (
       <div className="flex flex-col h-full w-full"> {/* Parent container */}
@@ -59,11 +64,17 @@ function Home() {
                   <Linechart dataLineChart={dataLineChart} />
               </ResponsiveContainer>
           </div>
+          <div>
+          {limitedActivities.map(activity => (
+            <ActivityCard key={activity.id} activity={activity} />
+            ))}
+          </div>
           <div className="w-full mx-auto h-[600px]"> {/* Line Chart Container (Full Width) */}
               <ResponsiveContainer width="95%" height={400}>
                   <CumulativeChart dataLineChart={cumulativeChartData} />
               </ResponsiveContainer>
           </div>
+
       </div>
   );
 }
